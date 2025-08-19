@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.http import HttpResponse
 from rest_framework import routers
 from posts.views import PostViewSet
 from comments.views import CommentViewSet
@@ -26,10 +27,15 @@ router = routers.DefaultRouter()
 router.register(r'posts', PostViewSet)
 router.register(r'comments', CommentViewSet)
 
+def home(request):
+    return HttpResponse("Backend is running successfully!")
+
 
 urlpatterns = [
+    path(" ", home),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
+
